@@ -41,12 +41,12 @@ void setup() {
 
 void loop() {
   // make a string for assembling the data to log:
-  String temperatureData = "Temperature is: ";
-  String humidityData = "Humidity is: ";
-  String heatData = "Heat Index is: ";
+  String temperatureData;
+  String humidityData;
+  String heatData;
 
   // Wait a few seconds between measurements.
-  delay(60000);
+  delay(2000);
 
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
@@ -72,28 +72,22 @@ void loop() {
   heatData.concat(hif);
 
   String completeData;
-  completeData.concat(dataTake);
-  completeData.concat(" ");
-  completeData.concat(temperatureData);
-  completeData.concat(" ");
-  completeData.concat(humidityData);
-  completeData.concat(" ");
-  completeData.concat(heatData);
+  completeData = String(dataTake) + "," + String(temperatureData) + "," + String(humidityData) + "," + String(heatData);
 
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
-  myFile = SD.open("data.txt", FILE_WRITE);
+  myFile = SD.open("data.csv", FILE_WRITE);
 
   // if the file opened okay, write to it:
   if (myFile) {
-    Serial.print("Writing to data.txt...");
+    Serial.print("Writing to data.csv...");
     myFile.println(completeData);
     // close the file:
     myFile.close();
     Serial.println("done.");
   } else {
     // if the file didn't open, print an error:
-    Serial.println("error opening data.txt");
+    Serial.println("error opening data.csv");
   }
   
   dataTake++;
